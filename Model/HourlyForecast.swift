@@ -9,25 +9,28 @@
 import Foundation
 
 class HourlyForecast {
-    var hour : String?
+    private var _hour : String?
     var data : WeatherData
     
     init(hour: String? = nil, data: WeatherData) {
-        self.hour = hour
+        self._hour = hour
         self.data = data
     }
     
-    func getFormattedHour() -> String {
-        
-        if let h = hour {
-        
-            return h.components(separatedBy: ":")[0]
-        
-        } else {
-            
-            return "Unavailable"
-        
+    var hour: String? {
+        get {
+            if let h = _hour {
+                
+                return h.components(separatedBy: ":")[0]
+                
+            } else {
+                
+                return "Unavailable"
+                
+            }
         }
-        
+        set {
+            _hour = newValue
+        }
     }
 }

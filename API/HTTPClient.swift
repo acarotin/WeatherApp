@@ -49,7 +49,6 @@ class HTTPClient {
     
     func downloadIcon(_ url: String) -> UIImage? {
         let aUrl = URL(string: "\(iconBaseUrl)\(url).png")
-        print(aUrl)
         guard let data = try? Data(contentsOf: aUrl!),
             let image = UIImage(data: data) else {
                 return nil

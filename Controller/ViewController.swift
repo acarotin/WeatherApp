@@ -10,7 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var CityLabel: UILabel!
+    
+    @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var weatherLabel: UILabel!
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var horizontalScrollerView: HorizontalScrollerView!
@@ -30,11 +31,6 @@ class ViewController: UIViewController {
         
         let backgroundView = BackgroundView()
         self.view.insertSubview(backgroundView, at: 0)
-        /*let blurEffect = UIBlurEffect(style: .dark)
-        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
-        blurredEffectView.frame = backgroundImage.bounds
-        blurredEffectView.alpha = 0.7;
-        view.insertSubview(blurredEffectView, at: 1)*/
         
         horizontalScrollerView.dataSource = self
         horizontalScrollerView.delegate = self
@@ -45,7 +41,13 @@ class ViewController: UIViewController {
             {
                 self.forecast = Forecast(json: json!)
                 DispatchQueue.main.async {
+                    
                     self.horizontalScrollerView.reload()
+                    self.cityLabel.text = "Paris"
+                    self.weatherLabel.text = self.forecast?.weather
+                    self.tempLabel.text = "\((self.forecast?.dailyForecast[0].hourlyForecast[0].data.temperature)!)º"
+                    
+                    
                 }
                 
                 if #available(iOS 11.0, *) {
@@ -53,32 +55,6 @@ class ViewController: UIViewController {
                 } else {
                     self.automaticallyAdjustsScrollViewInsets = false
                 }
-                
-                /*DispatchQueue.main.async {
-                    image.getBackgroundImage(weather: (day!.weather), view: self.view)
-                    self.title = "Paris"
-                    self.WeatherLabel.text = day!.weatherArray.first?.hourArray["description"]
-                    self.TemperatureLabel.text = (day!.weatherArray.first?.hourArray["temperature"])! + "°"
-                    image.getIconFromUrl(icon: (day!.weatherArray.first?.hourArray["icon"])!) { image in
-                        if image != nil
-                        {
-                            DispatchQueue.main.async {
-                                self.iconView.image = image
-                            }
-                        }
-                    }
-                    self.tableViewHour.reloadData()
-                    self.tableViewDay.reloadData()
-                }
-                
-                let userDefaults = UserDefaults.standard
-                var encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: self.weatherDayArray)
-                userDefaults.set(encodedData, forKey: "forecast")
-                userDefaults.synchronize()
-                
-                encodedData = NSKeyedArchiver.archivedData(withRootObject: self.day)
-                userDefaults.set(encodedData, forKey: "current")
-                userDefaults.synchronize()*/
             }
             else
             {
@@ -97,6 +73,50 @@ class ViewController: UIViewController {
 
     
 }
+
+/*extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var count:Int?
+        if tableView == self.tableViewHour {
+            if (weatherDayArray.count > 0) {
+                count = weatherDayArray.first?.weatherArray.count
+            }
+            else {
+                count = weatherDayArray.count
+            }
+        }
+        else {
+            count = weatherDayArray.count
+        }
+        return count!
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if tableView == self.tableViewHour
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "hourCell", for: indexPath) as! HourTableViewCell
+            let hour = weatherDayArray.first?.weatherArray[indexPath.row]
+            cell.hourCell = hour
+            return cell
+        }
+        else
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "dayCell", for: indexPath) as! DayTableViewCell
+            let day = weatherDayArray[indexPath.row]
+            cell.dayCell = day
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+            return "Daily Forecast"
+    }
+}*/
 
 extension ViewController: HorizontalScrollerViewDelegate {
     func horizontalScrollerView(_ horizontalScrollerView: HorizontalScrollerView, didSelectViewAt index: Int) {
@@ -117,7 +137,7 @@ extension ViewController: HorizontalScrollerViewDataSource {
     func horizontalScrollerView(_ horizontalScrollerView: HorizontalScrollerView, viewAt index: Int) -> UIView {
         print(index)
         let hourlyForecast = forecast?.dailyForecast[0].hourlyForecast[index]
-        let forecastView = ForecastView(frame: CGRect(x: 0, y: 0, width: horizontalScrollerView.frame.size.height - 10, height: horizontalScrollerView.frame.size.height - 10), iconUrl: hourlyForecast?.data.icon, hourText: (hourlyForecast?.getFormattedHour())!, temperatureText: (hourlyForecast?.data.temperature)!)
+        let forecastView = ForecastView(frame: CGRect(x: 0, y: 0, width: horizontalScrollerView.frame.size.height - 10, height: horizontalScrollerView.frame.size.height - 10), iconUrl: hourlyForecast?.data.icon, hourText: (hourlyForecast?.hour)!, temperatureText: (hourlyForecast?.data.temperature)!)
         return forecastView
     }
 }

@@ -33,6 +33,8 @@ class Forecast {
     
     init?(json: [String: Any]) {
 
+        print (json)
+        
         guard let all = json["list"] as? NSArray else {
             
             print("fatal error")
