@@ -8,13 +8,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var weatherLabel: UILabel!
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var horizontalScrollerView: HorizontalScrollerView!
+    @IBOutlet weak var tableView: UITableView!
     var forecast : Forecast? = nil
     
     private enum Constants {
@@ -34,6 +35,9 @@ class ViewController: UIViewController {
         
         horizontalScrollerView.dataSource = self
         horizontalScrollerView.delegate = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.tableFooterView = UIView()
         
         // Do any additional setup after loading the view, typically from a nib.
         WeatherAppAPI.shared.getForecast(city: "Paris"){ json in
@@ -45,8 +49,8 @@ class ViewController: UIViewController {
                     self.horizontalScrollerView.reload()
                     self.cityLabel.text = "Paris"
                     self.weatherLabel.text = self.forecast?.weather
-                    self.tempLabel.text = "\((self.forecast?.dailyForecast[0].hourlyForecast[0].data.temperature)!)º"
-                    
+                    self.tempLabel.text = self.forecast?.dailyForecast[0].hourlyForecast[0].data.temperature
+                    self.tableView.reloadData()
                     
                 }
                 
@@ -74,49 +78,31 @@ class ViewController: UIViewController {
     
 }
 
-/*extension ViewController: UITableViewDelegate {
+extension ViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var count:Int?
-        if tableView == self.tableViewHour {
-            if (weatherDayArray.count > 0) {
-                count = weatherDayArray.first?.weatherArray.count
-            }
-            else {
-                count = weatherDayArray.count
-            }
+        if let f = forecast {
+            return f.dailyForecast.count
         }
-        else {
-            count = weatherDayArray.count
-        }
-        return count!
-        
+        return 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == self.tableViewHour
-        {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "hourCell", for: indexPath) as! HourTableViewCell
-            let hour = weatherDayArray.first?.weatherArray[indexPath.row]
-            cell.hourCell = hour
-            return cell
-        }
-        else
-        {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "dayCell", for: indexPath) as! DayTableViewCell
-            let day = weatherDayArray[indexPath.row]
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //if let f = forecast {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier, for: indexPath) as! DailyForecastTableViewCell
+            let day = forecast?.dailyForecast[indexPath.row]
             cell.dayCell = day
             return cell
-        }
+        //}
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.clear
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    internal func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
             return "Daily Forecast"
     }
-}*/
+}
 
 extension ViewController: HorizontalScrollerViewDelegate {
     func horizontalScrollerView(_ horizontalScrollerView: HorizontalScrollerView, didSelectViewAt index: Int) {

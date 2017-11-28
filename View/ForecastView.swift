@@ -76,7 +76,7 @@ class ForecastView: UIView {
         temperature = UILabel(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 20))
         temperature.translatesAutoresizingMaskIntoConstraints = false
         temperature.textAlignment = .center
-        temperature.text = "\(temperatureText)º"
+        temperature.text = "\(temperatureText)"
         addSubview(temperature)
         
         NSLayoutConstraint.activate([

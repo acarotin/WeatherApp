@@ -16,4 +16,45 @@ class DailyForecast {
         self.date = date
         self.hourlyForecast = hourlyForecast
     }
+    
+    func getHourlyForecastByHour(hour: String) -> HourlyForecast {
+        for case let h in self.hourlyForecast {
+            if h.hour == hour {
+                return h
+            }
+        }
+        return self.hourlyForecast[0]
+    }
+    
+    func getLowestTemp() -> String {
+        var lowest : Int = 0
+        for case let h in self.hourlyForecast {
+            if let newLowest = Int(h.data.lowest) {
+                if newLowest > lowest {
+                    lowest = newLowest
+                }
+            }
+        }
+        if lowest == 0 {
+            return "Unavailable"
+        } else {
+            return String(describing: lowest)
+        }
+    }
+    
+    func getHighestTemp() -> String {
+        var highest : Int = 0
+        for case let h in self.hourlyForecast {
+            if let newHighest = Int(h.data.highest) {
+                if newHighest > highest {
+                    highest = newHighest
+                }
+            }
+        }
+        if highest == 0 {
+            return "Unavailable"
+        } else {
+            return String(describing: highest)
+        }
+    }
 }

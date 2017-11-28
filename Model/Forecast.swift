@@ -13,12 +13,6 @@ class Forecast {
     var weather: String? = nil
     var dailyForecast : [DailyForecast] = []
     
-    /*override init() {
-        date = "none"
-        weatherArray = [HourlyForecast]()
-        weather = "none"
-    }*/
-    
     func contains(date: String?) -> DailyForecast? {
         guard let d = date else {
             return nil

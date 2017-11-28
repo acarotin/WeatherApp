@@ -27,8 +27,8 @@ class ParticleView: UIView {
     // ParticleView.rain()
     // ParticleView.snow()
     
-    private init() {
-        let frame = CGRect(x: -150, y: -100, width: Constants.screenWidth, height: Constants.particleCreationHeight)
+    private init(originX : CGFloat, originY : CGFloat) {
+        let frame = CGRect(x: originX, y: originY, width: Constants.screenWidth, height: Constants.particleCreationHeight)
         super.init(frame: frame)
         emitter = layer as! CAEmitterLayer
         emitter.emitterPosition = CGPoint(x: bounds.size.width / 2, y: 0)
@@ -37,29 +37,57 @@ class ParticleView: UIView {
         //backgroundColor = UIColor.blue
     }
     
-    static func rainView() -> ParticleView {
-        let view = ParticleView()
+    static func snowView() -> ParticleView {
+        let view = ParticleView(originX: -150, originY: -100)
         
         let emitterCell = CAEmitterCell()
         emitterCell.contents = UIImage(named: "spark")!.cgImage
-        emitterCell.birthRate = 150
-        emitterCell.lifetime = 8.0
+        emitterCell.birthRate = 400
+        emitterCell.lifetime = 3.0
         emitterCell.color = UIColor.white.cgColor
         emitterCell.redRange = 0.0
         emitterCell.blueRange = 0.1
         emitterCell.greenRange = 0.0
         emitterCell.velocity = 5
-        emitterCell.velocityRange = 350
+        emitterCell.velocityRange = 900
         emitterCell.emissionRange = CGFloat.pi / 2
         emitterCell.emissionLongitude = -CGFloat.pi
-        emitterCell.yAcceleration = 20
+        emitterCell.yAcceleration = 140
         emitterCell.xAcceleration = 0
         emitterCell.scale = 0.13
-        emitterCell.scaleRange = 0.05 
-        emitterCell.scaleSpeed = -0.25
+        emitterCell.scaleRange = -0.50
+        emitterCell.scaleSpeed = 0.15
         emitterCell.alphaRange = 0.5
         emitterCell.alphaSpeed = -0.15
         view.emitter.emitterCells = [emitterCell]
+        return view
+    }
+    
+    static func rainView() -> ParticleView {
+        let view = ParticleView(originX: 0, originY: -150)
+        
+        let emitterCell = CAEmitterCell()
+        emitterCell.contents = UIImage(named: "spark")!.cgImage
+        emitterCell.birthRate = 300
+        emitterCell.lifetime = 3.0
+        emitterCell.color = UIColor.white.cgColor
+        emitterCell.redRange = 0.0
+        emitterCell.blueRange = 0.1
+        emitterCell.greenRange = 0.0
+        emitterCell.velocity = 5
+        emitterCell.velocityRange = 400
+        emitterCell.emissionRange = 0.01
+        emitterCell.emissionLatitude = .pi / 2
+        emitterCell.emissionLongitude = 0
+        emitterCell.yAcceleration = 150
+        emitterCell.xAcceleration = 0
+        emitterCell.scale = 0.10
+        emitterCell.scaleRange = 0
+        emitterCell.scaleSpeed = 0
+        emitterCell.alphaRange = 0
+        emitterCell.alphaSpeed = -0.30
+        view.emitter.emitterCells = [emitterCell]
+        view.transform = view.transform.scaledBy(x: 1, y: 5)
         return view
     }
     

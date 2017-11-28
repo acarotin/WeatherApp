@@ -30,7 +30,7 @@ class WeatherData {
         get {
             if let t = _temperature {
                 
-                return t
+                return "\(t)º"
                 
             } else {
                 

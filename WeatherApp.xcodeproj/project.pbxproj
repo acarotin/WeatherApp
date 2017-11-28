@@ -18,6 +18,9 @@
 		6411D77C1FC5771500634D6D /* HourlyForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6411D77B1FC5771500634D6D /* HourlyForecast.swift */; };
 		6411D7821FC5878100634D6D /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6411D7811FC5878100634D6D /* WeatherData.swift */; };
 		6411D7841FC5905500634D6D /* ForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6411D7831FC5905500634D6D /* ForecastView.swift */; };
+		644C8A9C1FCD95B000AC710D /* DailyForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644C8A9B1FCD95B000AC710D /* DailyForecastTableViewCell.swift */; };
+		644C8AA31FCDAE9D00AC710D /* SceneKit Particle System.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 644C8AA11FCDAE9D00AC710D /* SceneKit Particle System.scnp */; };
+		644C8AA41FCDAE9D00AC710D /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 644C8AA21FCDAE9D00AC710D /* spark.png */; };
 		649D1C371FC5ADDA00E25D9D /* HorizontalScrollerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649D1C361FC5ADDA00E25D9D /* HorizontalScrollerView.swift */; };
 		649D1C391FC5AF6000E25D9D /* WeatherAppAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649D1C381FC5AF6000E25D9D /* WeatherAppAPI.swift */; };
 		649D1C3C1FC5B98000E25D9D /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 649D1C3B1FC5B98000E25D9D /* NotificationExtension.swift */; };
@@ -40,6 +43,9 @@
 		6411D77B1FC5771500634D6D /* HourlyForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyForecast.swift; sourceTree = "<group>"; };
 		6411D7811FC5878100634D6D /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		6411D7831FC5905500634D6D /* ForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastView.swift; sourceTree = "<group>"; };
+		644C8A9B1FCD95B000AC710D /* DailyForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForecastTableViewCell.swift; sourceTree = "<group>"; };
+		644C8AA11FCDAE9D00AC710D /* SceneKit Particle System.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = "SceneKit Particle System.scnp"; sourceTree = "<group>"; };
+		644C8AA21FCDAE9D00AC710D /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		649D1C361FC5ADDA00E25D9D /* HorizontalScrollerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalScrollerView.swift; sourceTree = "<group>"; };
 		649D1C381FC5AF6000E25D9D /* WeatherAppAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppAPI.swift; sourceTree = "<group>"; };
 		649D1C3B1FC5B98000E25D9D /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
@@ -109,6 +115,9 @@
 				649D1C361FC5ADDA00E25D9D /* HorizontalScrollerView.swift */,
 				64C7C87A1FC8660C002552EE /* ParticleView.swift */,
 				64C7C87C1FC86C7E002552EE /* BackgroundView.swift */,
+				644C8A9B1FCD95B000AC710D /* DailyForecastTableViewCell.swift */,
+				644C8AA11FCDAE9D00AC710D /* SceneKit Particle System.scnp */,
+				644C8AA21FCDAE9D00AC710D /* spark.png */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -199,8 +208,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				644C8AA41FCDAE9D00AC710D /* spark.png in Resources */,
 				6411D76C1FC56F6E00634D6D /* LaunchScreen.storyboard in Resources */,
 				6411D7691FC56F6E00634D6D /* Assets.xcassets in Resources */,
+				644C8AA31FCDAE9D00AC710D /* SceneKit Particle System.scnp in Resources */,
 				6411D7641FC56F6E00634D6D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -223,6 +234,7 @@
 				6411D7821FC5878100634D6D /* WeatherData.swift in Sources */,
 				649D1C3E1FC5C52B00E25D9D /* DailyForecast.swift in Sources */,
 				64C7C87D1FC86C7E002552EE /* BackgroundView.swift in Sources */,
+				644C8A9C1FCD95B000AC710D /* DailyForecastTableViewCell.swift in Sources */,
 				6411D77A1FC5717900634D6D /* Forecast.swift in Sources */,
 				6411D7841FC5905500634D6D /* ForecastView.swift in Sources */,
 				649D1C391FC5AF6000E25D9D /* WeatherAppAPI.swift in Sources */,
