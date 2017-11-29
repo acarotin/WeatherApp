@@ -26,8 +26,6 @@ class Forecast {
     }
     
     init?(json: [String: Any]) {
-
-        print (json)
         
         guard let all = json["list"] as? NSArray else {
             
@@ -40,7 +38,7 @@ class Forecast {
             
             var hour    : String?       = nil
             let day     : DailyForecast = DailyForecast()
-            let data                    = WeatherData()
+            let data                    = ForecastData()
             
             if let date = ((result as? [String : Any])?["dt_txt"] as? String) {
                 

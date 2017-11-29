@@ -10,9 +10,9 @@ import Foundation
 
 class HourlyForecast {
     private var _hour : String?
-    var data : WeatherData
+    var data : ForecastData
     
-    init(hour: String? = nil, data: WeatherData) {
+    init(hour: String? = nil, data: ForecastData) {
         self._hour = hour
         self.data = data
     }

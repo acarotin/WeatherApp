@@ -16,11 +16,6 @@ class HTTPClient {
     private let openWeatherMapAPIKey = "f2c0678af52aa02137f906cc6c18e9b5"
     private let iconBaseUrl = "http://openweathermap.org/img/w/"
     
-    func getRequest(_ url: String) -> AnyObject {
-        
-        return Data() as AnyObject
-    }
-    
     func getForecast(city: String, completion: @escaping (_ json: [String:Any]?) -> Void) {
         
         let url = URL(string: "\(openWeatherMapURLForecast)?APPID=\(openWeatherMapAPIKey)&q=\(city)&units=metric")!
@@ -47,17 +42,31 @@ class HTTPClient {
         
     }
     
-    func downloadIcon(_ url: String) -> UIImage? {
-        let aUrl = URL(string: "\(iconBaseUrl)\(url).png")
-        guard let data = try? Data(contentsOf: aUrl!),
-            let image = UIImage(data: data) else {
-                return nil
-        }
-        return image
+    func getWeather(city : String, completion: @escaping (_ json: [String : Any]?) -> Void) {
+        let url = URL(string: "\(openWeatherMapURLCurrent)?APPID=\(openWeatherMapAPIKey)&q=\(city)&units=metric")!
+        
+        URLSession.shared.dataTask(with: url, completionHandler: {
+            (data, response, error) in
+            if error != nil {
+                print(error)
+            } else {
+                if let data = data {
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: data, options:[]) as? [String:Any] {
+                            completion(json)
+                        } else {
+                            completion(nil)
+                        }
+                    } catch let err{
+                        print(err.localizedDescription)
+                    }
+                }
+            }
+        }).resume()
     }
     
-    func downloadImage(_ url: String) -> UIImage? {
-        let aUrl = URL(string: url)
+    func downloadIcon(_ url: String) -> UIImage? {
+        let aUrl = URL(string: "\(iconBaseUrl)\(url).png")
         guard let data = try? Data(contentsOf: aUrl!),
             let image = UIImage(data: data) else {
                 return nil

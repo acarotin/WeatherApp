@@ -46,6 +46,12 @@ final class WeatherAppAPI {
         } 
     }
     
+    func getWeather(city: String, completion: @escaping (_ json: [String:Any]?) -> Void) {
+        httpClient.getWeather(city: city) { json in
+            completion(json)
+        }
+    }
+    
     @objc func downloadImage(with notification: Notification) {
         guard let userInfo = notification.userInfo,
             let imageView = userInfo["iconView"] as? UIImageView,

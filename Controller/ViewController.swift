@@ -17,6 +17,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var horizontalScrollerView: HorizontalScrollerView!
     @IBOutlet weak var tableView: UITableView!
     var forecast : Forecast? = nil
+    var weather : WeatherData? = nil
     
     private enum Constants {
         static let CellIdentifier = "Cell"
@@ -47,7 +48,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 DispatchQueue.main.async {
                     
                     self.horizontalScrollerView.reload()
-                    self.cityLabel.text = "Paris"
                     self.weatherLabel.text = self.forecast?.weather
                     self.tempLabel.text = self.forecast?.dailyForecast[0].hourlyForecast[0].data.temperature
                     self.tableView.reloadData()
@@ -68,6 +68,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 //self.detailBtn.isEnabled = false
             }
         }
+        
+        WeatherAppAPI.shared.getWeather(city: "Paris"){ json in
+            if json != nil
+            {
+                self.weather = WeatherData(city: "Paris", json: json!)
+                print(self.weather![0])
+                DispatchQueue.main.async {
+                    
+                    self.cityLabel.text = self.weather?.city
+                    self.weatherLabel.text = self.weather?.description
+                    self.tempLabel.text = self.weather?.temperature
+                    
+                }
+            }
+            else
+            {
+                let alert = UIAlertController(title: "Error", message: "An error has occured, please make sure you are connected to the internet then restart the application", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                //self.detailBtn.isEnabled = false
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,6 +97,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func detailAction(_ sender: Any) {
+        print("dude")
+        self.performSegue(withIdentifier: "detailSegue", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detailSegue" {
+            if let vc = segue.destination as? DetailViewController {
+                vc.weather = self.weather
+            }
+        }
+    }
     
 }
 
