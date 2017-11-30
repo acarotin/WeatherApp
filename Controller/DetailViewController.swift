@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UITableViewDelegate {
+class DetailViewController: UIViewController {
 
     @IBOutlet weak var weatherLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -18,8 +18,18 @@ class DetailViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let backgroundView = BackgroundView()
+        self.view.insertSubview(backgroundView, at: 0)
+        
         tableView.dataSource = self.weather
         tableView.delegate = self
+        tableView.tableFooterView = UIView()
+        
+        self.title = weather?.city
+        self.weatherLabel.text = weather?.weather
+        self.temperatureLabel.text = weather?.temperature
+        self.weatherLabel.textColor = UIColor.white
+        self.temperatureLabel.textColor = UIColor.white
         // Do any additional setup after loading the view.
     }
 
@@ -39,4 +49,14 @@ class DetailViewController: UIViewController, UITableViewDelegate {
     }
     */
 
+}
+
+extension DetailViewController : UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        cell.backgroundColor = UIColor.clear
+    
+    }
+    
 }

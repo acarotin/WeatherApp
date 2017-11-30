@@ -10,7 +10,6 @@ import Foundation
 
 class Forecast {
     var date: String? = nil
-    var weather: String? = nil
     var dailyForecast : [DailyForecast] = []
     
     func contains(date: String?) -> DailyForecast? {
@@ -37,20 +36,15 @@ class Forecast {
         for case let result in all {
             
             var hour    : String?       = nil
+            var date    : String?       = nil
             let day     : DailyForecast = DailyForecast()
             let data                    = ForecastData()
             
-            if let date = ((result as? [String : Any])?["dt_txt"] as? String) {
+            if let d = ((result as? [String : Any])?["dt_txt"] as? String) {
                 
-                let dateArray   = date.components(separatedBy: " ")
-                self.date       = dateArray[0]
+                let dateArray   = d.components(separatedBy: " ")
+                date            = dateArray[0]
                 hour            = dateArray[1]
-                
-            }
-            
-            if let weather = (((result as? [String : Any])?["weather"] as? [[String: Any]])?[0]["main"] as? String) {
-                
-                self.weather = weather
                 
             }
             
@@ -64,9 +58,9 @@ class Forecast {
                 
             }
             
-            if let description = (((result as? [String : Any])?["weather"] as? [[String: Any]])?[0]["description"] as? String) {
+            if let weather = (((result as? [String : Any])?["weather"] as? [[String: Any]])?[0]["description"] as? String) {
                 
-                data.description = description
+                data.weather = weather
                 
             }
             
@@ -96,7 +90,7 @@ class Forecast {
                 
             }
             
-            if let d = self.contains(date: self.date) {
+            if let d = self.contains(date: date) {
                 
                 d.hourlyForecast.append(HourlyForecast(hour: hour, data: data))
                 
@@ -111,10 +105,4 @@ class Forecast {
         }
         
     }
-    
-    /*init(date: String, weather: String, weatherArray: [HourlyForecast]) {
-        self.date = date
-        self.weather = weather
-        self.weatherArray = weatherArray
-    }*/
 }

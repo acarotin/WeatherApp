@@ -29,6 +29,7 @@
 		64C7C87B1FC8660C002552EE /* ParticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C7C87A1FC8660C002552EE /* ParticleView.swift */; };
 		64C7C87D1FC86C7E002552EE /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C7C87C1FC86C7E002552EE /* BackgroundView.swift */; };
 		64F282C91FCEC9CE00251F64 /* ForecastData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F282C81FCEC9CE00251F64 /* ForecastData.swift */; };
+		64F3D73D1FD04DB0000A437B /* PersistencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F3D73C1FD04DB0000A437B /* PersistencyManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		64C7C87A1FC8660C002552EE /* ParticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleView.swift; sourceTree = "<group>"; };
 		64C7C87C1FC86C7E002552EE /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		64F282C81FCEC9CE00251F64 /* ForecastData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastData.swift; sourceTree = "<group>"; };
+		64F3D73C1FD04DB0000A437B /* PersistencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistencyManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			children = (
 				6411D7771FC5705200634D6D /* HTTPClient.swift */,
 				649D1C381FC5AF6000E25D9D /* WeatherAppAPI.swift */,
+				64F3D73C1FD04DB0000A437B /* PersistencyManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 				649D1C3E1FC5C52B00E25D9D /* DailyForecast.swift in Sources */,
 				64C7C87D1FC86C7E002552EE /* BackgroundView.swift in Sources */,
 				644C8A9C1FCD95B000AC710D /* DailyForecastTableViewCell.swift in Sources */,
+				64F3D73D1FD04DB0000A437B /* PersistencyManager.swift in Sources */,
 				6411D77A1FC5717900634D6D /* Forecast.swift in Sources */,
 				6411D7841FC5905500634D6D /* ForecastView.swift in Sources */,
 				64F282C91FCEC9CE00251F64 /* ForecastData.swift in Sources */,

@@ -25,7 +25,7 @@ class WeatherData : NSObject {
     
     private enum Constants {
         static let CellIdentifier = "Cell"
-        static let StartingIndex = 3
+        static let StartingIndex = 4
     }
     
     init?(city: String, json: [String: Any]) {
@@ -188,7 +188,7 @@ class WeatherData : NSObject {
         get {
             if let t = _temperature {
                 
-                return "\(t)º"
+                return t
                 
             } else {
                 
@@ -197,7 +197,7 @@ class WeatherData : NSObject {
             }
         }
         set {
-            _temperature = newValue
+            _temperature = "\(newValue)º"
         }
     }
     
@@ -248,24 +248,7 @@ class WeatherData : NSObject {
             }
         }
         set {
-            _humidity = newValue
-        }
-    }
-    
-    var highest : String {
-        get {
-            if let h = _highest {
-                
-                return h
-                
-            } else {
-                
-                return "Unavailable"
-                
-            }
-        }
-        set {
-            _highest = newValue
+            _humidity = "\(newValue)%"
         }
     }
     
@@ -282,7 +265,7 @@ class WeatherData : NSObject {
             }
         }
         set {
-            _windspeed = newValue
+            _windspeed = "\(newValue) meter/sec"
         }
     }
     
@@ -299,7 +282,24 @@ class WeatherData : NSObject {
             }
         }
         set {
-            _pressure = newValue
+            _pressure = "\(newValue) hPa"
+        }
+    }
+    
+    var highest : String {
+        get {
+            if let h = _highest {
+                
+                return h
+                
+            } else {
+                
+                return "Unavailable"
+                
+            }
+        }
+        set {
+            _highest = "\(newValue)º"
         }
     }
     
@@ -316,7 +316,7 @@ class WeatherData : NSObject {
             }
         }
         set {
-            _lowest = newValue
+            _lowest = "\(newValue)º"
         }
     }
     
@@ -346,16 +346,20 @@ extension WeatherData : UITableViewDataSource {
     }
     
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style:UITableViewCellStyle.default, reuseIdentifier: Constants.CellIdentifier)
+        let cell = UITableViewCell(style:UITableViewCellStyle.value1, reuseIdentifier: Constants.CellIdentifier)
         cell.textLabel?.text = self[indexPath.row]?.key
+        cell.detailTextLabel?.text = self[indexPath.row]?.value
+        cell.textLabel?.textColor = UIColor.white
+        cell.detailTextLabel?.textColor = UIColor.white
         return cell
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        print("test")
         cell.backgroundColor = UIColor.clear
     }
     
     internal func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Daily Forecast"
+        return "Detailed Informations"
     }
 }

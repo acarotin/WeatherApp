@@ -11,15 +11,15 @@ import Foundation
 class ForecastData {
     
     private var _temperature : String?
-    private var _description : String?
+    private var _weather     : String?
     private var _icon        : String?
     private var _highest     : String?
     private var _lowest      : String?
     
-    init(temperature : String? = nil, description : String? = nil, icon : String? = nil, highest : String? = nil, lowest : String? = nil) {
+    init(temperature : String? = nil, weather : String? = nil, icon : String? = nil, highest : String? = nil, lowest : String? = nil) {
         
         self._temperature    = temperature
-        self._description    = description
+        self._weather        = weather
         self._icon           = icon
         self._highest        = highest
         self._lowest         = lowest
@@ -43,9 +43,9 @@ class ForecastData {
         }
     }
     
-    var description : String {
+    var weather : String {
         get {
-            if let d = _description {
+            if let d = _weather {
                 
                 return d
                 
@@ -56,7 +56,7 @@ class ForecastData {
             }
         }
         set {
-            _description = newValue
+            _weather = newValue
         }
     }
     

@@ -10,8 +10,6 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    
-    @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var weatherLabel: UILabel!
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var horizontalScrollerView: HorizontalScrollerView!
@@ -45,10 +43,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             if json != nil
             {
                 self.forecast = Forecast(json: json!)
+                WeatherAppAPI.shared.saveToCoreData(forecast: self.forecast!)
                 DispatchQueue.main.async {
-                    
+
                     self.horizontalScrollerView.reload()
-                    self.weatherLabel.text = self.forecast?.weather
+                    self.weatherLabel.text = self.forecast?.dailyForecast[0].hourlyForecast[0].data.weather
                     self.tempLabel.text = self.forecast?.dailyForecast[0].hourlyForecast[0].data.temperature
                     self.tableView.reloadData()
                     
@@ -73,12 +72,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             if json != nil
             {
                 self.weather = WeatherData(city: "Paris", json: json!)
-                print(self.weather![0])
                 DispatchQueue.main.async {
                     
-                    self.cityLabel.text = self.weather?.city
-                    self.weatherLabel.text = self.weather?.description
+                    self.title = self.weather?.city
+                    self.weatherLabel.text = self.weather?.weather
                     self.tempLabel.text = self.weather?.temperature
+                    self.weatherLabel.textColor = UIColor.white
+                    self.tempLabel.textColor = UIColor.white
                     
                 }
             }
@@ -98,7 +98,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     @IBAction func detailAction(_ sender: Any) {
-        print("dude")
         self.performSegue(withIdentifier: "detailSegue", sender: self)
     }
     
@@ -121,12 +120,10 @@ extension ViewController {
     }
     
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //if let f = forecast {
-            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier, for: indexPath) as! DailyForecastTableViewCell
-            let day = forecast?.dailyForecast[indexPath.row]
-            cell.dayCell = day
-            return cell
-        //}
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier, for: indexPath) as!  DailyForecastTableViewCell
+        let day = forecast?.dailyForecast[indexPath.row]
+        cell.dayCell = day
+        return cell
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

@@ -18,7 +18,7 @@ final class WeatherAppAPI {
         NotificationCenter.default.addObserver(self, selector: #selector(downloadImage(with:)), name: .BLDownloadIcon, object: nil)
     }
     
-    //private let persistencyManager = PersistencyManager()
+    private let persistencyManager = PersistencyManager()
     private let httpClient = HTTPClient()
     //private let isOnline = false
     
@@ -50,6 +50,10 @@ final class WeatherAppAPI {
         httpClient.getWeather(city: city) { json in
             completion(json)
         }
+    }
+    
+    func saveToCoreData(forecast: Forecast) {
+        persistencyManager.saveToCoreData(forecast: forecast)
     }
     
     @objc func downloadImage(with notification: Notification) {

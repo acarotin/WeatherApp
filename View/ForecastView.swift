@@ -71,12 +71,14 @@ class ForecastView: UIView {
         hour.translatesAutoresizingMaskIntoConstraints = false
         hour.textAlignment = .center
         hour.text = "\(hourText)h"
+        hour.textColor = UIColor.white
         addSubview(hour)
         
         temperature = UILabel(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 20))
         temperature.translatesAutoresizingMaskIntoConstraints = false
         temperature.textAlignment = .center
         temperature.text = "\(temperatureText)"
+        temperature.textColor = UIColor.white
         addSubview(temperature)
         
         NSLayoutConstraint.activate([

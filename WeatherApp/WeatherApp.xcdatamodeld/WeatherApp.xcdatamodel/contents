@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DailyForecastEntity" representedClassName="DailyForecastEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="hourlyForecast" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="HourlyForecastEntity" syncable="YES"/>
+    </entity>
+    <entity name="ForecastDataEntity" representedClassName="ForecastDataEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="highest" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="icon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lowest" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="temperature" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="weather" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ForecastEntity" representedClassName="ForecastEntity" syncable="YES" codeGenerationType="class">
+        <relationship name="dailyForecast" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DailyForecastEntity" syncable="YES"/>
+    </entity>
+    <entity name="HourlyForecastEntity" representedClassName="HourlyForecastEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="hour" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="forecastData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ForecastDataEntity" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="ForecastEntity" positionX="-63" positionY="-18" width="128" height="60"/>
+        <element name="DailyForecastEntity" positionX="-54" positionY="0" width="128" height="75"/>
+        <element name="HourlyForecastEntity" positionX="-36" positionY="18" width="128" height="75"/>
+        <element name="ForecastDataEntity" positionX="-18" positionY="45" width="128" height="120"/>
+    </elements>
 </model>
