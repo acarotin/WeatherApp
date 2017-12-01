@@ -27,7 +27,6 @@ final class PersistencyManager {
             
             let newDailyForecast = NSEntityDescription.insertNewObject(forEntityName: "DailyForecastEntity", into: context)
             newDailyForecast.setValue(dailyForecast.date, forKey: "date")
-            
             for hourlyForecast in dailyForecast.hourlyForecast {
                 
                 let newHourlyForecast = NSEntityDescription.insertNewObject(forEntityName: "HourlyForecastEntity", into: context)
@@ -39,16 +38,12 @@ final class PersistencyManager {
                 newForecastData.setValue(hourlyForecast.data.icon, forKey: "icon")
                 newForecastData.setValue(hourlyForecast.data.highest, forKey: "highest")
                 newForecastData.setValue(hourlyForecast.data.lowest, forKey: "lowest")
-                newHourlyForecast.setValue(NSSet(object: newForecastData), forKey: "forecastData")
+                newHourlyForecast.setValue(newForecastData, forKey: "forecastData")
                 
-                let daily = newDailyForecast.mutableSetValue(forKey: "hourlyForecast")
-                daily.add(newHourlyForecast)
-                //newDailyForecast.setValue(NSSet(object: newHourlyForecast), forKey: "hourlyForecast")
+                newHourlyForecast.setValue(newDailyForecast, forKey: "dailyForecast")
                 
             }
-            let forecast = newForecast.mutableSetValue(forKey: "dailyForecast")
-            forecast.add(newDailyForecast)
-            //newForecast.setValue(NSSet(object: newDailyForecast), forKey: "dailyForecast")
+            newDailyForecast.setValue(newForecast, forKey: "forecast")
         }
         
     }

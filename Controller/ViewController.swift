@@ -43,7 +43,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             if json != nil
             {
                 self.forecast = Forecast(json: json!)
-                WeatherAppAPI.shared.saveToCoreData(forecast: self.forecast!)
+                print(self.forecast)
+                //WeatherAppAPI.shared.saveToCoreData(forecast: self.forecast!)
                 DispatchQueue.main.async {
 
                     self.horizontalScrollerView.reload()
