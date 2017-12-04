@@ -52,8 +52,33 @@ final class WeatherAppAPI {
         }
     }
     
-    func saveToCoreData(forecast: Forecast) {
-        persistencyManager.saveToCoreData(forecast: forecast)
+    func saveForecastToCoreData(forecast: Forecast) {
+        deleteForecastFromCoreData()
+        persistencyManager.saveForecastToCoreData(forecast: forecast)
+    }
+    
+    func saveWeatherToCoreData(weather: WeatherData) {
+        deleteWeatherFromCoreData()
+        persistencyManager.saveWeatherToCoreData(weather: weather)
+    }
+    
+    func fetchForecastFromCoreData() -> Forecast? {
+        return persistencyManager.fetchForecastFromCoreData()
+    }
+    
+    func fetchWeatherFromCoreData() -> WeatherData? {
+        return persistencyManager.fetchWeatherFromCoreData()
+    }
+    
+    func deleteForecastFromCoreData() {
+        persistencyManager.deleteEntityFromCoreData(entity: "ForecastEntity")
+        persistencyManager.deleteEntityFromCoreData(entity: "DailyForecastEntity")
+        persistencyManager.deleteEntityFromCoreData(entity: "HourlyForecastEntity")
+        persistencyManager.deleteEntityFromCoreData(entity: "ForecastDataEntity")
+    }
+    
+    func deleteWeatherFromCoreData() {
+        persistencyManager.deleteEntityFromCoreData(entity: "WeatherDataEntity")
     }
     
     @objc func downloadImage(with notification: Notification) {

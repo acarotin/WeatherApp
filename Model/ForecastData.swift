@@ -10,13 +10,13 @@ import Foundation
 
 class ForecastData {
     
-    private var _temperature : String?
+    private var _temperature : Int?
     private var _weather     : String?
     private var _icon        : String?
-    private var _highest     : String?
-    private var _lowest      : String?
+    private var _highest     : Int?
+    private var _lowest      : Int?
     
-    init(temperature : String? = nil, weather : String? = nil, icon : String? = nil, highest : String? = nil, lowest : String? = nil) {
+    init(temperature : Int? = nil, weather : String? = nil, icon : String? = nil, highest : Int? = nil, lowest : Int? = nil) {
         
         self._temperature    = temperature
         self._weather        = weather
@@ -26,7 +26,24 @@ class ForecastData {
         
     }
     
-    var temperature : String {
+    var temperature : Int? {
+        get {
+            if let t = _temperature {
+                
+                return t
+                
+            } else {
+                
+                return nil
+                
+            }
+        }
+        set {
+            _temperature = newValue
+        }
+    }
+    
+    var temperatureAsTxt : String {
         get {
             if let t = _temperature {
                 
@@ -37,9 +54,6 @@ class ForecastData {
                 return "Unavailable"
                 
             }
-        }
-        set {
-            _temperature = newValue
         }
     }
     
@@ -77,7 +91,7 @@ class ForecastData {
         }
     }
     
-    var highest : String {
+    var highest : Int? {
         get {
             if let h = _highest {
                 
@@ -85,7 +99,7 @@ class ForecastData {
                 
             } else {
                 
-                return "Unavailable"
+                return nil
                 
             }
         }
@@ -94,11 +108,11 @@ class ForecastData {
         }
     }
     
-    var lowest : String {
+    var highestAsTxt : String {
         get {
-            if let l = _lowest {
+            if let h = _highest {
                 
-                return l
+                return "\(h)"
                 
             } else {
                 
@@ -106,8 +120,36 @@ class ForecastData {
                 
             }
         }
+    }
+    
+    var lowest : Int? {
+        get {
+            if let l = _lowest {
+                
+                return l
+                
+            } else {
+                
+                return nil
+                
+            }
+        }
         set {
             _lowest = newValue
+        }
+    }
+    
+    var lowestAsTxt : String {
+        get {
+            if let l = _lowest {
+                
+                return "\(l)"
+                
+            } else {
+                
+                return "Unavailable"
+                
+            }
         }
     }
     

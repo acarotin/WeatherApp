@@ -17,7 +17,7 @@ final class PersistencyManager {
         
     }
     
-    func saveToCoreData(forecast: Forecast) {
+    func saveForecastToCoreData(forecast: Forecast) {
         
         let context = appDelegate.persistentContainer.viewContext
         
@@ -46,7 +46,98 @@ final class PersistencyManager {
             newDailyForecast.setValue(newForecast, forKey: "forecast")
         }
         
+        do {
+            try newForecast.managedObjectContext?.save()
+        } catch {
+            print(error)
+        }
+        
     }
+    
+    func saveWeatherToCoreData(weather: WeatherData) {
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let newWeatherData = NSEntityDescription.insertNewObject(forEntityName: "WeatherDataEntity", into: context)
+        newWeatherData.setValue(weather.city, forKey: "city")
+        newWeatherData.setValue(weather.weather, forKey: "weather")
+        newWeatherData.setValue(weather.icon, forKey: "icon")
+        newWeatherData.setValue(weather.temperature, forKey: "temperature")
+        newWeatherData.setValue(weather.sunrise, forKey: "sunrise")
+        newWeatherData.setValue(weather.sunset, forKey: "sunset")
+        newWeatherData.setValue(weather.humidity, forKey: "humidity")
+        newWeatherData.setValue(weather.windspeed, forKey: "windspeed")
+        newWeatherData.setValue(weather.pressure, forKey: "pressure")
+        newWeatherData.setValue(weather.lowest, forKey: "lowest")
+        newWeatherData.setValue(weather.highest, forKey: "highest")
+        
+        do {
+            try newWeatherData.managedObjectContext?.save()
+        } catch {
+            print(error)
+        }
+        
+    }
+    
+    func fetchForecastFromCoreData() -> Forecast? {
+        
+        var forecast : Forecast? = nil
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<ForecastEntity>(entityName: "ForecastEntity")
+        
+        do {
+            
+            let result = try context.fetch(fetchRequest)
+            forecast = Forecast(result: result)
+            
+        } catch {
+            
+            let fetchError = error as NSError
+            print(fetchError)
+            
+        }
+        
+        return forecast
+    
+    }
+    
+    func fetchWeatherFromCoreData() -> WeatherData? {
+        
+        var weather : WeatherData? = nil
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<WeatherDataEntity>(entityName: "WeatherDataEntity")
+        
+        do {
+            
+            let result = try context.fetch(fetchRequest)
+            weather = WeatherData(result: result)
+            
+        } catch {
+            
+            let fetchError = error as NSError
+            print(fetchError)
+            
+        }
+        
+        return weather
+        
+    }
+    
+    func deleteEntityFromCoreData(entity: String) {
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try context.execute(deleteRequest)
+        } catch let error as NSError {
+            print(error)
+        }
+        
+    }
+    
     /*func getReactions() -> [Reaction] {
         return reactions
     }

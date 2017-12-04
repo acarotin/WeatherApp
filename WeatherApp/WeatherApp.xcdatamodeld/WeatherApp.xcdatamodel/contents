@@ -3,28 +3,42 @@
     <entity name="DailyForecastEntity" representedClassName="DailyForecastEntity" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="String" defaultValueString="Unavailable" syncable="YES"/>
         <relationship name="forecast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ForecastEntity" inverseName="dailyForecast" inverseEntity="ForecastEntity" syncable="YES"/>
-        <relationship name="hourlyForecast" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="HourlyForecastEntity" inverseName="dailyForecast" inverseEntity="HourlyForecastEntity" syncable="YES"/>
+        <relationship name="hourlyForecast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HourlyForecastEntity" inverseName="dailyForecast" inverseEntity="HourlyForecastEntity" syncable="YES"/>
     </entity>
     <entity name="ForecastDataEntity" representedClassName="ForecastDataEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="highest" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="highest" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="icon" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="lowest" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="temperature" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lowest" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="temperature" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="weather" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="hourlyForecast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HourlyForecastEntity" inverseName="forecastData" inverseEntity="HourlyForecastEntity" syncable="YES"/>
     </entity>
     <entity name="ForecastEntity" representedClassName="ForecastEntity" syncable="YES" codeGenerationType="class">
-        <relationship name="dailyForecast" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DailyForecastEntity" inverseName="forecast" inverseEntity="DailyForecastEntity" syncable="YES"/>
+        <relationship name="dailyForecast" toMany="YES" deletionRule="Nullify" destinationEntity="DailyForecastEntity" inverseName="forecast" inverseEntity="DailyForecastEntity" syncable="YES"/>
     </entity>
     <entity name="HourlyForecastEntity" representedClassName="HourlyForecastEntity" syncable="YES" codeGenerationType="class">
         <attribute name="hour" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="dailyForecast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DailyForecastEntity" inverseName="hourlyForecast" inverseEntity="DailyForecastEntity" syncable="YES"/>
         <relationship name="forecastData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ForecastDataEntity" inverseName="hourlyForecast" inverseEntity="ForecastDataEntity" syncable="YES"/>
     </entity>
+    <entity name="WeatherDataEntity" representedClassName="WeatherDataEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="highest" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="humidity" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="icon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lowest" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="pressure" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="sunrise" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="sunset" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="temperature" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="weather" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="windspeed" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="DailyForecastEntity" positionX="-387" positionY="-324" width="128" height="90"/>
-        <element name="ForecastDataEntity" positionX="135" positionY="-153" width="128" height="135"/>
-        <element name="ForecastEntity" positionX="-693" positionY="-72" width="128" height="60"/>
+        <element name="DailyForecastEntity" positionX="-387" positionY="-324" width="128" height="88"/>
+        <element name="ForecastDataEntity" positionX="135" positionY="-153" width="128" height="133"/>
+        <element name="ForecastEntity" positionX="-693" positionY="-72" width="128" height="58"/>
         <element name="HourlyForecastEntity" positionX="-92" positionY="-279" width="128" height="90"/>
+        <element name="WeatherDataEntity" positionX="-279" positionY="-180" width="128" height="208"/>
     </elements>
 </model>

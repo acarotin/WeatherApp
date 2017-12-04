@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var horizontalScrollerView: HorizontalScrollerView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var detailBtn: UIBarButtonItem!
     var forecast : Forecast? = nil
     var weather : WeatherData? = nil
     
@@ -43,13 +44,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             if json != nil
             {
                 self.forecast = Forecast(json: json!)
-                print(self.forecast)
-                //WeatherAppAPI.shared.saveToCoreData(forecast: self.forecast!)
+                //print((WeatherAppAPI.shared.fetchFromCoreData())?.dailyForecast.count)
+                WeatherAppAPI.shared.saveForecastToCoreData(forecast: self.forecast!)
+                //WeatherAppAPI.shared.deleteFromCoreData()
                 DispatchQueue.main.async {
 
                     self.horizontalScrollerView.reload()
                     self.weatherLabel.text = self.forecast?.dailyForecast[0].hourlyForecast[0].data.weather
-                    self.tempLabel.text = self.forecast?.dailyForecast[0].hourlyForecast[0].data.temperature
+                    self.tempLabel.text = self.forecast?.dailyForecast[0].hourlyForecast[0].data.temperatureAsTxt
                     self.tableView.reloadData()
                     
                 }
@@ -62,22 +64,35 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
             else
             {
-                let alert = UIAlertController(title: "Error", message: "An error has occured, please make sure you are connected to the internet then restart the application", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-                //self.detailBtn.isEnabled = false
+                if let forecast = WeatherAppAPI.shared.fetchForecastFromCoreData() {
+                    if forecast.dailyForecast.count <= 0 {
+                        self.forecast = forecast
+                    } else {
+                        let alert = UIAlertController(title: "Error", message: "An error has occured, please make sure you are connected to the internet then restart the application", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        self.detailBtn.isEnabled = false
+                    }
+                } else {
+                    let alert = UIAlertController(title: "Error", message: "An error has occured, please make sure you are connected to the internet then restart the application", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    self.detailBtn.isEnabled = false
+                }
             }
         }
         
         WeatherAppAPI.shared.getWeather(city: "Paris"){ json in
             if json != nil
             {
-                self.weather = WeatherData(city: "Paris", json: json!)
+                //self.weather = WeatherData(city: "Paris", json: json!)
+                self.weather = WeatherAppAPI.shared.fetchWeatherFromCoreData()
+                //WeatherAppAPI.shared.saveWeatherToCoreData(weather: self.weather!)
                 DispatchQueue.main.async {
                     
                     self.title = self.weather?.city
                     self.weatherLabel.text = self.weather?.weather
-                    self.tempLabel.text = self.weather?.temperature
+                    self.tempLabel.text = self.weather?.temperatureAsTxt
                     self.weatherLabel.textColor = UIColor.white
                     self.tempLabel.textColor = UIColor.white
                     
@@ -155,7 +170,7 @@ extension ViewController: HorizontalScrollerViewDataSource {
     func horizontalScrollerView(_ horizontalScrollerView: HorizontalScrollerView, viewAt index: Int) -> UIView {
         print(index)
         let hourlyForecast = forecast?.dailyForecast[0].hourlyForecast[index]
-        let forecastView = ForecastView(frame: CGRect(x: 0, y: 0, width: horizontalScrollerView.frame.size.height - 10, height: horizontalScrollerView.frame.size.height - 10), iconUrl: hourlyForecast?.data.icon, hourText: (hourlyForecast?.hour)!, temperatureText: (hourlyForecast?.data.temperature)!)
+        let forecastView = ForecastView(frame: CGRect(x: 0, y: 0, width: horizontalScrollerView.frame.size.height - 10, height: horizontalScrollerView.frame.size.height - 10), iconUrl: hourlyForecast?.data.icon, hourText: (hourlyForecast?.hour)!, temperatureText: (hourlyForecast?.data.temperatureAsTxt)!)
         return forecastView
     }
 }

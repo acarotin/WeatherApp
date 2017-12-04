@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HourlyForecast {
+class HourlyForecast: NSObject {
     private var _hour : String?
     var data : ForecastData
     

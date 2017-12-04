@@ -8,9 +8,14 @@
 
 import Foundation
 
-class Forecast {
-    var date: String? = nil
+class Forecast: CustomStringConvertible {
     var dailyForecast : [DailyForecast] = []
+    
+    var description: String {
+        
+        return "\(dump(self.dailyForecast))"
+        
+    }
     
     func contains(date: String?) -> DailyForecast? {
         guard let d = date else {
@@ -51,9 +56,9 @@ class Forecast {
             if let temperature = (((result as? [String : Any])?["main"] as? [String: Any])?["temp"]) {
                 
                 if let tempAsDouble = temperature as? Double {
-                    data.temperature = String(describing: Int(round(tempAsDouble)))
+                    data.temperature = Int(round(tempAsDouble))
                 } else {
-                    data.temperature = "Unavailable"
+                    data.temperature = nil
                 }
                 
             }
@@ -73,9 +78,9 @@ class Forecast {
             if let highest = (((result as? [String : Any])?["main"] as? [String: Any])?["temp_max"]) {
                 
                 if let highestAsDouble = highest as? Double {
-                    data.highest = String(describing: Int(round(highestAsDouble)))
+                    data.highest = Int(round(highestAsDouble))
                 } else {
-                    data.highest = "Unavailable"
+                    data.highest = nil
                 }
                 
             }
@@ -83,9 +88,9 @@ class Forecast {
             if let lowest = (((result as? [String : Any])?["main"] as? [String: Any])?["temp_min"]) {
                 
                 if let lowestAsDouble = lowest as? Double {
-                    data.lowest = String(describing: Int(round(lowestAsDouble)))
+                    data.lowest = Int(round(lowestAsDouble))
                 } else {
-                    data.lowest = "Unavailable"
+                    data.lowest = nil
                 }
                 
             }
@@ -96,7 +101,7 @@ class Forecast {
                 
             } else {
                 
-                day.date = self.date
+                day.date = date
                 day.hourlyForecast.append(HourlyForecast(hour: hour, data: data))
                 self.dailyForecast.append(day)
                 
@@ -105,4 +110,69 @@ class Forecast {
         }
         
     }
+    
+    init?(result: [ForecastEntity]) {
+        
+        for forecastEntity in result {
+            
+            var dailyForecast : [DailyForecast] = []
+            
+            if let dailyForecastFetch = forecastEntity.dailyForecast {
+                
+                for case let day as DailyForecastEntity in dailyForecastFetch {
+                    
+                    var hourlyForecast : [HourlyForecast] = []
+                    
+                    if let hourlyForecastFetch = day.hourlyForecast {
+                            
+                        for case let hour as HourlyForecastEntity in hourlyForecastFetch {
+                            
+                            var dt = ForecastData()
+                            
+                            if let data = hour.forecastData {
+                            
+                                dt = ForecastData(temperature: Int(data.temperature), weather: data.weather, icon: data.icon, highest: Int(data.highest), lowest: Int(data.lowest))
+                            
+                            }
+                        
+                            let h = HourlyForecast(hour: hour.hour, data: dt)
+                            hourlyForecast.append(h)
+                        
+                        }
+                    
+                    }
+                    
+                    hourlyForecast.sort(by: {
+                        (lhs, rhs) -> Bool in
+                        guard let rhsHour = rhs.hour else {
+                            return true
+                        }
+                        guard let lhsHour = lhs.hour else {
+                            return false
+                        }
+                        return lhsHour < rhsHour
+                    })
+                    let d = DailyForecast(date: day.date, hourlyForecast: hourlyForecast)
+                    dailyForecast.append(d)
+                
+                }
+            
+            }
+            
+            dailyForecast.sort(by: {
+                (lhs, rhs) -> Bool in
+                guard let rhsDate = rhs.date else {
+                    return true
+                }
+                guard let lhsDate = lhs.date else {
+                    return false
+                }
+                return lhsDate < rhsDate
+            })
+            self.dailyForecast = dailyForecast
+            
+        }
+        
+    }
+    
 }

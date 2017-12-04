@@ -27,7 +27,7 @@ class DetailViewController: UIViewController {
         
         self.title = weather?.city
         self.weatherLabel.text = weather?.weather
-        self.temperatureLabel.text = weather?.temperature
+        self.temperatureLabel.text = weather?.temperatureAsTxt
         self.weatherLabel.textColor = UIColor.white
         self.temperatureLabel.textColor = UIColor.white
         // Do any additional setup after loading the view.

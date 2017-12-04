@@ -133,6 +133,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="detailBtn" destination="RUA-X2-oWP" id="R4I-84-3wr"/>
                         <outlet property="horizontalScrollerView" destination="0dZ-zc-P5O" id="p7Z-eB-UHX"/>
                         <outlet property="tableView" destination="5eP-DG-NZI" id="AeG-YV-lkb"/>
                         <outlet property="tempLabel" destination="qpz-ac-rb8" id="7wo-bI-12Q"/>

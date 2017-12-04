@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DailyForecast {
+class DailyForecast: NSObject {
     var date : String?
     var hourlyForecast : [HourlyForecast]
     
@@ -29,7 +29,7 @@ class DailyForecast {
     func getLowestTemp() -> String {
         var lowest : Int = 0
         for case let h in self.hourlyForecast {
-            if let newLowest = Int(h.data.lowest) {
+            if let newLowest = h.data.lowest {
                 if newLowest > lowest {
                     lowest = newLowest
                 }
@@ -45,7 +45,7 @@ class DailyForecast {
     func getHighestTemp() -> String {
         var highest : Int = 0
         for case let h in self.hourlyForecast {
-            if let newHighest = Int(h.data.highest) {
+            if let newHighest = h.data.highest {
                 if newHighest > highest {
                     highest = newHighest
                 }
