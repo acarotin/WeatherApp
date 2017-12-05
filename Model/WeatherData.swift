@@ -13,6 +13,7 @@ class WeatherData : NSObject {
     
     private var _city        : String?
     private var _weather     : String?
+    private var _main        : String?
     private var _icon        : String?
     private var _temperature : Int?
     private var _sunset      : Date?
@@ -23,21 +24,35 @@ class WeatherData : NSObject {
     private var _lowest      : Int?
     private var _highest     : Int?
     
+    var temperatureAsTxt : String = "Unavailable"
+    var sunsetAsTxt      : String = "Unavailable"
+    var sunriseAsTxt     : String = "Unavailable"
+    var humidityAsTxt    : String = "Unavailable"
+    var windspeedAsTxt   : String = "Unavailable"
+    var pressureAsTxt    : String = "Unavailable"
+    var lowestAsTxt      : String = "Unavailable"
+    var highestAsTxt     : String = "Unavailable"
+    
     private enum Constants {
         static let CellIdentifier = "Cell"
-        static let StartingIndex = 4
+        static let StartingIndex = 13
     }
     
     init?(city: String, json: [String: Any]) {
-        
+
         super.init()
-        //print(json)
-        
+
         self.city = city
             
         if let weather = ((json["weather"] as? [[String: Any]])?[0]["description"] as? String) {
             
             self.weather = weather
+            
+        }
+        
+        if let main = ((json["weather"] as? [[String: Any]])?[0]["main"] as? String) {
+            
+            self.main = main
             
         }
         
@@ -50,9 +65,18 @@ class WeatherData : NSObject {
         if let temperature = ((json["main"] as? [String: Any])?["temp"]) {
             
             if let tempAsDouble = temperature as? Double {
+                
                 self.temperature = Int(round(tempAsDouble))
+                if let t = self.temperature {
+                    
+                    self.temperatureAsTxt = "\(t)º"
+                    
+                }
+                
             } else {
+                
                 self.temperature = nil
+                
             }
             
         }
@@ -60,11 +84,16 @@ class WeatherData : NSObject {
         if let sunriseTimestamp = ((json["sys"] as? [String: Any])?["sunrise"]) {
             
             if let timeInterval = sunriseTimestamp as? TimeInterval {
+                
                 var sunrise = Date(timeIntervalSince1970: timeInterval)
                 sunrise = sunrise.addingTimeInterval(2 * 60 * 60)
                 self.sunrise = sunrise
+                self.sunriseAsTxt = sunrise.dateToString(date: sunrise)
+                
             } else {
+                
                 self.sunrise = nil
+                
             }
             
         }
@@ -72,11 +101,16 @@ class WeatherData : NSObject {
         if let sunsetTimestamp = ((json["sys"] as? [String: Any])?["sunset"]) {
             
             if let timeInterval = sunsetTimestamp as? TimeInterval {
+                
                 var sunset = Date(timeIntervalSince1970: timeInterval)
                 sunset = sunset.addingTimeInterval(2 * 60 * 60)
                 self.sunset = sunset
+                self.sunsetAsTxt = sunset.dateToString(date: sunset)
+                
             } else {
+                
                 self.sunset = nil
+                
             }
             
         }
@@ -84,9 +118,18 @@ class WeatherData : NSObject {
         if let humidity = ((json["main"] as? [String: Any])?["humidity"]) {
             
             if let humidityAsDouble = humidity as? Double {
+                
                 self.humidity = Int(round(humidityAsDouble))
+                if let h = self.humidity {
+                    
+                    self.humidityAsTxt = "\(h)%"
+                    
+                }
+            
             } else {
+                
                 self.humidity = nil
+                
             }
             
         }
@@ -94,9 +137,18 @@ class WeatherData : NSObject {
         if let windspeed = ((json["wind"] as? [String: Any])?["speed"]) {
         
             if let windspeedAsDouble = windspeed as? Double {
+                
                 self.windspeed = Int(round(windspeedAsDouble))
+                if let w = self.windspeed {
+                    
+                    self.windspeedAsTxt = "\(w) meter/sec"
+                    
+                }
+                
             } else {
+                
                 self.windspeed = nil
+                
             }
             
         }
@@ -104,9 +156,18 @@ class WeatherData : NSObject {
         if let pressure = ((json["main"] as? [String: Any])?["pressure"]) {
             
             if let pressureAsDouble = pressure as? Double {
+                
                 self.pressure = Int(round(pressureAsDouble))
+                if let p = self.pressure {
+                    
+                    self.pressureAsTxt = "\(p) hPa"
+                    
+                }
+                
             } else {
+                
                 self.pressure = nil
+            
             }
             
         }
@@ -114,9 +175,19 @@ class WeatherData : NSObject {
         if let highest = ((json["main"] as? [String: Any])?["temp_max"]) {
             
             if let highestAsDouble = highest as? Double {
+                
                 self.highest = Int(round(highestAsDouble))
+                if let hT = self.highest {
+                    
+                    self.highestAsTxt = "\(hT)º"
+                    
+                }
+                
+                
             } else {
+                
                 self.highest = nil
+            
             }
             
         }
@@ -124,12 +195,22 @@ class WeatherData : NSObject {
         if let lowest = ((json["main"] as? [String: Any])?["temp_min"]) {
             
             if let lowestAsDouble = lowest as? Double {
+                
                 self.lowest = Int(round(lowestAsDouble))
+                if let lT = self.lowest {
+                    
+                    self.lowestAsTxt = "\(lT)º"
+                    
+                }
+                
             } else {
+                
                 self.lowest = nil
+                
             }
                 
         }
+        
         
     }
     
@@ -151,6 +232,12 @@ class WeatherData : NSObject {
                 
             }
             
+            if let main = weatherDataEntity.main {
+                
+                self.main = main
+                
+            }
+            
             if let icon = weatherDataEntity.icon {
                 
                 self.icon = icon
@@ -165,6 +252,54 @@ class WeatherData : NSObject {
             self.pressure = Int(weatherDataEntity.pressure)
             self.highest = Int(weatherDataEntity.highest)
             self.lowest = Int(weatherDataEntity.lowest)
+            
+            if let t = self.temperature {
+                
+                self.temperatureAsTxt = "\(t)º"
+            
+            }
+            
+            if let sr = self.sunrise {
+                
+                self.sunriseAsTxt = "\(sr.dateToString(date: sr))º"
+                
+            }
+            
+            if let ss = self.sunset {
+                
+                self.sunsetAsTxt = "\(ss.dateToString(date: ss))º"
+                
+            }
+            
+            if let h = self.humidity {
+                
+                self.humidityAsTxt = "\(h)%"
+                
+            }
+            
+            if let w = self.windspeed {
+                
+                self.windspeedAsTxt = "\(w) meter/sec"
+                
+            }
+            
+            if let p = self.pressure {
+                
+                self.pressureAsTxt = "\(p) hPa"
+                
+            }
+            
+            if let h = self.highest {
+                
+                self.highestAsTxt = "\(h)º"
+                
+            }
+            
+            if let l = self.lowest {
+                
+                self.lowestAsTxt = "\(l)º"
+                
+            }
             
         }
         
@@ -204,6 +339,23 @@ class WeatherData : NSObject {
         }
     }
     
+    var main : String {
+        get {
+            if let m = _main {
+                
+                return m
+                
+            } else {
+                
+                return "Unavailable"
+                
+            }
+        }
+        set {
+            _main = newValue
+        }
+    }
+    
     var icon : String {
         get {
             if let i = _icon {
@@ -238,20 +390,6 @@ class WeatherData : NSObject {
         }
     }
     
-    var temperatureAsTxt : String {
-        get {
-            if let t = _temperature {
-                
-                return "\(t)º"
-                
-            } else {
-                
-                return "Unavailable"
-                
-            }
-        }
-    }
-    
     var sunrise : Date? {
         get {
             if let s = _sunrise {
@@ -266,21 +404,6 @@ class WeatherData : NSObject {
         }
         set {
             _sunrise = newValue
-        }
-    }
-    
-    var sunriseToTxt : String {
-        get {
-            if let s = _sunrise {
-                
-                let sToTxt = s.dateToString(date: s)
-                return sToTxt
-                
-            } else {
-                
-                return "Unavailable"
-                
-            }
         }
     }
     
@@ -301,21 +424,6 @@ class WeatherData : NSObject {
         }
     }
     
-    var sunsetToTxt : String {
-        get {
-            if let s = _sunset {
-                
-                let sToTxt = s.dateToString(date: s)
-                return sToTxt
-                
-            } else {
-                
-                return "Unavailable"
-                
-            }
-        }
-    }
-    
     var humidity : Int? {
         get {
             if let h = _humidity {
@@ -330,20 +438,6 @@ class WeatherData : NSObject {
         }
         set {
             _humidity = newValue
-        }
-    }
-    
-    var humidityAsTxt : String {
-        get {
-            if let h = _humidity {
-                
-                return "\(h)%"
-                
-            } else {
-                
-                return "Unavailable"
-                
-            }
         }
     }
     
@@ -364,20 +458,6 @@ class WeatherData : NSObject {
         }
     }
     
-    var windspeedAsTxt : String {
-        get {
-            if let w = _windspeed {
-                
-                return "\(w) meter/sec"
-                
-            } else {
-                
-                return "Unavailable"
-                
-            }
-        }
-    }
-    
     var pressure : Int? {
         get {
             if let p = _pressure {
@@ -392,20 +472,6 @@ class WeatherData : NSObject {
         }
         set {
             _pressure = newValue
-        }
-    }
-    
-    var pressureAsTxt : String {
-        get {
-            if let p = _pressure {
-                
-                return "\(p) hPa"
-                
-            } else {
-                
-                return "Unavailable"
-                
-            }
         }
     }
     
@@ -426,20 +492,6 @@ class WeatherData : NSObject {
         }
     }
     
-    var highestAsTxt : String {
-        get {
-            if let h = _highest {
-                
-                return "\(h)º"
-                
-            } else {
-                
-                return "Unavailable"
-                
-            }
-        }
-    }
-    
     var lowest : Int? {
         get {
             if let l = _lowest {
@@ -454,20 +506,6 @@ class WeatherData : NSObject {
         }
         set {
             _lowest = newValue
-        }
-    }
-    
-    var lowestAsTxt : String {
-        get {
-            if let l = _lowest {
-                
-                return "\(l)º"
-                
-            } else {
-                
-                return "Unavailable"
-                
-            }
         }
     }
     
@@ -486,7 +524,7 @@ class WeatherData : NSObject {
             let value = property.value as? String else {
             return nil
         }
-        return (String(name.dropFirst()), value)
+        return (String(name.dropLast(5)), value)
     }
     
 }
@@ -505,10 +543,6 @@ extension WeatherData : UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        print("test")
-        cell.backgroundColor = UIColor.clear
-    }
     
     internal func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Detailed Informations"

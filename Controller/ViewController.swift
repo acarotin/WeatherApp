@@ -85,9 +85,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         WeatherAppAPI.shared.getWeather(city: "Paris"){ json in
             if json != nil
             {
-                //self.weather = WeatherData(city: "Paris", json: json!)
-                self.weather = WeatherAppAPI.shared.fetchWeatherFromCoreData()
-                //WeatherAppAPI.shared.saveWeatherToCoreData(weather: self.weather!)
+                self.weather = WeatherData(city: "Paris", json: json!)
+                //self.weather = WeatherAppAPI.shared.fetchWeatherFromCoreData()
+                WeatherAppAPI.shared.saveWeatherToCoreData(weather: self.weather!)
                 DispatchQueue.main.async {
                     
                     self.title = self.weather?.city

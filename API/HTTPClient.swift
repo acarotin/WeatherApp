@@ -23,7 +23,7 @@ class HTTPClient {
         URLSession.shared.dataTask(with: url, completionHandler: {
             (data, response, error) in
             if error != nil {
-                print("error")
+                completion(nil)
             }else{
                 if let data = data {
                     do {
@@ -48,7 +48,7 @@ class HTTPClient {
         URLSession.shared.dataTask(with: url, completionHandler: {
             (data, response, error) in
             if error != nil {
-                print(error)
+                completion(nil)
             } else {
                 if let data = data {
                     do {

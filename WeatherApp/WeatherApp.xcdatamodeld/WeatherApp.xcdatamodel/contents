@@ -27,6 +27,7 @@
         <attribute name="humidity" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="icon" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lowest" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="main" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pressure" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sunrise" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="sunset" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -39,6 +40,6 @@
         <element name="ForecastDataEntity" positionX="135" positionY="-153" width="128" height="133"/>
         <element name="ForecastEntity" positionX="-693" positionY="-72" width="128" height="58"/>
         <element name="HourlyForecastEntity" positionX="-92" positionY="-279" width="128" height="90"/>
-        <element name="WeatherDataEntity" positionX="-279" positionY="-180" width="128" height="208"/>
+        <element name="WeatherDataEntity" positionX="-279" positionY="-180" width="128" height="225"/>
     </elements>
 </model>

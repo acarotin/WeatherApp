@@ -30,7 +30,6 @@ class DetailViewController: UIViewController {
         self.temperatureLabel.text = weather?.temperatureAsTxt
         self.weatherLabel.textColor = UIColor.white
         self.temperatureLabel.textColor = UIColor.white
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
