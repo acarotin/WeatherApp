@@ -16,7 +16,7 @@ class ParticleView: UIView {
     private enum Constants {
         static let screenWidth = UIScreen.main.bounds.width
         //static let screenHeight = UIScreen.main.bounds.height
-        static let particleCreationHeight : CGFloat = 30
+        static let particleCreationHeight : CGFloat = 100
     }
     
     public enum WeatherType {
@@ -88,6 +88,33 @@ class ParticleView: UIView {
         emitterCell.alphaSpeed = -0.30
         view.emitter.emitterCells = [emitterCell]
         view.transform = view.transform.scaledBy(x: 1, y: 5)
+        return view
+    }
+    
+    static func mistView() -> ParticleView {
+        let view = ParticleView(originX: -300, originY: 100)
+        
+        let emitterCell = CAEmitterCell()
+        emitterCell.contents = UIImage(named: "spark")!.cgImage
+        emitterCell.birthRate = 100
+        emitterCell.lifetime = 12.0
+        emitterCell.color = UIColor.white.cgColor
+        emitterCell.redRange = 0.0
+        emitterCell.blueRange = 0.1
+        emitterCell.greenRange = 0.0
+        emitterCell.velocity = 30
+        emitterCell.velocityRange = 25
+        emitterCell.emissionRange = .pi / 6
+        emitterCell.emissionLongitude = 0
+        emitterCell.emissionLatitude = 0
+        emitterCell.yAcceleration = 0
+        emitterCell.xAcceleration = 5
+        emitterCell.scale = 0.13
+        emitterCell.scaleRange = -0.50
+        emitterCell.scaleSpeed = 0.15
+        emitterCell.alphaRange = 0.5
+        emitterCell.alphaSpeed = -0.15
+        view.emitter.emitterCells = [emitterCell]
         return view
     }
     

@@ -18,7 +18,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let backgroundView = BackgroundView()
+        let backgroundView = BackgroundView(main: self.weather?.main)
         self.view.insertSubview(backgroundView, at: 0)
         
         tableView.dataSource = self.weather

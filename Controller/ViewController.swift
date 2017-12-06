@@ -30,9 +30,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = UIColor.clear
         
-        let backgroundView = BackgroundView()
-        self.view.insertSubview(backgroundView, at: 0)
-        
         horizontalScrollerView.dataSource = self
         horizontalScrollerView.delegate = self
         tableView.delegate = self
@@ -43,9 +40,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         WeatherAppAPI.shared.getForecast(city: "Paris"){ json in
             if json != nil
             {
-                self.forecast = Forecast(json: json!)
+                //self.forecast = Forecast(json: json!)
+                self.forecast = WeatherAppAPI.shared.fetchForecastFromCoreData()
                 //print((WeatherAppAPI.shared.fetchFromCoreData())?.dailyForecast.count)
-                WeatherAppAPI.shared.saveForecastToCoreData(forecast: self.forecast!)
+                //WeatherAppAPI.shared.saveForecastToCoreData(forecast: self.forecast!)
                 //WeatherAppAPI.shared.deleteFromCoreData()
                 DispatchQueue.main.async {
 
@@ -90,6 +88,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 WeatherAppAPI.shared.saveWeatherToCoreData(weather: self.weather!)
                 DispatchQueue.main.async {
                     
+                    let backgroundView = BackgroundView(main: self.weather?.main)
+                    self.view.insertSubview(backgroundView, at: 0)
                     self.title = self.weather?.city
                     self.weatherLabel.text = self.weather?.weather
                     self.tempLabel.text = self.weather?.temperatureAsTxt
@@ -103,7 +103,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 let alert = UIAlertController(title: "Error", message: "An error has occured, please make sure you are connected to the internet then restart the application", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
-                //self.detailBtn.isEnabled = false
+                self.detailBtn.isEnabled = false
             }
         }
     }

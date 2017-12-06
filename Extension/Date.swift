@@ -21,4 +21,23 @@ extension Date {
         
     }
     
+    func stringToDate(date: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-mm-dd" //Your date format
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00") //Current time zone
+        let date = dateFormatter.date(from: date) //according to date format your date string
+        return date
+    }
+    
+    /*func hourAsString(/*date : Date?*/) -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        dateFormatter.locale = NSLocale.current
+        dateFormatter.dateFormat = "HH:mm"
+        let strDate = dateFormatter.string(from: date)
+        return strDate
+        
+    }*/
+    
 }

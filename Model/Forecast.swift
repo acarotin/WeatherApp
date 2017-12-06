@@ -100,7 +100,7 @@ class Forecast: CustomStringConvertible {
                 d.hourlyForecast.append(HourlyForecast(hour: hour, data: data))
                 
             } else {
-                
+
                 day.date = date
                 day.hourlyForecast.append(HourlyForecast(hour: hour, data: data))
                 self.dailyForecast.append(day)
@@ -152,6 +152,7 @@ class Forecast: CustomStringConvertible {
                         }
                         return lhsHour < rhsHour
                     })
+                    
                     let d = DailyForecast(date: day.date, hourlyForecast: hourlyForecast)
                     dailyForecast.append(d)
                 
@@ -170,6 +171,37 @@ class Forecast: CustomStringConvertible {
                 return lhsDate < rhsDate
             })
             self.dailyForecast = dailyForecast
+            
+            /*let now = Date()
+            //let axel = now.stringToDate(date: "2017-12-06")
+            
+            self.dailyForecast = self.dailyForecast.filter {
+                
+                if let dateString = $0.date {
+                    
+                    if let dateObj = now.stringToDate(date: dateString) {
+                        
+                        return dateObj > now
+                    }
+                    
+                }
+                
+                return false
+                
+            }
+            
+            let hour = String(format: "%0.2d", Calendar.current.component(.hour, from: Date()))
+            self.dailyForecast[0].hourlyForecast = self.dailyForecast[0].hourlyForecast.filter {
+                
+                if let hourString = $0.hour {
+                    
+                    return hourString > hour
+                    
+                }
+                
+                return true
+                
+            }*/
             
         }
         

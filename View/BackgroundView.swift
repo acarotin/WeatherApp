@@ -11,7 +11,7 @@ import UIKit
 
 class BackgroundView: UIView {
     
-    init() {
+    init(main: String?) {
         
         super.init(frame: UIScreen.main.bounds)
         
@@ -22,7 +22,20 @@ class BackgroundView: UIView {
         blurredEffectView.alpha = 0.7;
         self.insertSubview(blurredEffectView, at: 1)
         
-        let particleView = ParticleView.rainView()
+        /*if (main != nil) {
+            if main == "Rain" {
+                let particleView = ParticleView.rainView()
+                self.insertSubview(particleView, at: 0)
+            } else {
+                let particleView = ParticleView.snowView()
+                self.insertSubview(particleView, at: 0)
+            }
+        } else {
+            let particleView = ParticleView.snowView()
+            self.insertSubview(particleView, at: 0)
+        }*/
+        
+        let particleView = ParticleView.mistView()
         self.insertSubview(particleView, at: 0)
     
     }
