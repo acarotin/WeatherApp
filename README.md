@@ -1,6 +1,6 @@
 # WeatherApp
 
-An opensource weather app for iOS. It gathers data from the OpenWeatherMap public API.
+An MVC design pattern conform, opensource weather app for iOS. It gathers data from the OpenWeatherMap public API.
 
 ## Features
 * Simple design
