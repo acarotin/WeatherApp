@@ -97,7 +97,7 @@ class ParticleView: UIView {
         let emitterCell = CAEmitterCell()
         emitterCell.contents = UIImage(named: "spark")!.cgImage
         emitterCell.birthRate = 100
-        emitterCell.lifetime = 12.0
+        emitterCell.lifetime = 12
         emitterCell.color = UIColor.white.cgColor
         emitterCell.redRange = 0.0
         emitterCell.blueRange = 0.1
@@ -109,6 +109,33 @@ class ParticleView: UIView {
         emitterCell.emissionLatitude = 0
         emitterCell.yAcceleration = 0
         emitterCell.xAcceleration = 5
+        emitterCell.scale = 0.13
+        emitterCell.scaleRange = -0.50
+        emitterCell.scaleSpeed = 0.15
+        emitterCell.alphaRange = 0.5
+        emitterCell.alphaSpeed = -0.15
+        view.emitter.emitterCells = [emitterCell]
+        return view
+    }
+    
+    static func cloundView() -> ParticleView {
+        let view = ParticleView(originX: -120, originY: 100)
+        
+        let emitterCell = CAEmitterCell()
+        emitterCell.contents = UIImage(named: "spark")!.cgImage
+        emitterCell.birthRate = 100
+        emitterCell.lifetime = 30
+        emitterCell.color = UIColor.white.cgColor
+        emitterCell.redRange = 0.0
+        emitterCell.blueRange = 0.1
+        emitterCell.greenRange = 0.0
+        emitterCell.velocity = 25
+        emitterCell.velocityRange = 30
+        emitterCell.emissionRange = .pi / 6
+        emitterCell.emissionLongitude = 0
+        emitterCell.emissionLatitude = 0
+        emitterCell.yAcceleration = 0
+        emitterCell.xAcceleration = 3
         emitterCell.scale = 0.13
         emitterCell.scaleRange = -0.50
         emitterCell.scaleSpeed = 0.15

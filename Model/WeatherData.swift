@@ -540,6 +540,7 @@ extension WeatherData : UITableViewDataSource {
         cell.detailTextLabel?.text = self[indexPath.row]?.value
         cell.textLabel?.textColor = UIColor.white
         cell.detailTextLabel?.textColor = UIColor.white
+        cell.selectionStyle = .none
         return cell
     }
     

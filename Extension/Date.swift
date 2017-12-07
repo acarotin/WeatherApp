@@ -21,13 +21,23 @@ extension Date {
         
     }
     
-    func stringToDate(date: String) -> Date? {
+    init?(string: String) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let date = dateFormatter.date(from: string) {
+            self = date
+        } else {
+            return nil
+        }
+    }
+    
+    /*func stringToDate(date: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-mm-dd" //Your date format
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00") //Current time zone
         let date = dateFormatter.date(from: date) //according to date format your date string
         return date
-    }
+    }*/
     
     /*func hourAsString(/*date : Date?*/) -> String {
         

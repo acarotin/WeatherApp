@@ -172,25 +172,32 @@ class Forecast: CustomStringConvertible {
             })
             self.dailyForecast = dailyForecast
             
-            /*let now = Date()
-            //let axel = now.stringToDate(date: "2017-12-06")
-            
-            self.dailyForecast = self.dailyForecast.filter {
-                
-                if let dateString = $0.date {
-                    
-                    if let dateObj = now.stringToDate(date: dateString) {
-                        
-                        return dateObj > now
-                    }
+        }
+        
+        let now = Date()
+         
+        self.dailyForecast = self.dailyForecast.filter {
+         
+            if let dateString = $0.date {
+         
+                if let dateObj = Date(string: dateString) {
+
+                    return dateObj > now
                     
                 }
-                
-                return false
-                
+         
             }
+         
+            return false
+         
+        }
+        
+        print(self.dailyForecast.count)
+         
+        let hour = String(format: "%0.2d", Calendar.current.component(.hour, from: Date()))
+        
+        if self.dailyForecast.count > 0 {
             
-            let hour = String(format: "%0.2d", Calendar.current.component(.hour, from: Date()))
             self.dailyForecast[0].hourlyForecast = self.dailyForecast[0].hourlyForecast.filter {
                 
                 if let hourString = $0.hour {
@@ -201,7 +208,7 @@ class Forecast: CustomStringConvertible {
                 
                 return true
                 
-            }*/
+            }
             
         }
         

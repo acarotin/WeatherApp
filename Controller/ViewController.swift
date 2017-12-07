@@ -40,17 +40,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         WeatherAppAPI.shared.getForecast(city: "Paris"){ json in
             if json != nil
             {
-                //self.forecast = Forecast(json: json!)
-                self.forecast = WeatherAppAPI.shared.fetchForecastFromCoreData()
+                self.forecast = Forecast(json: json!)
+                //self.forecast = WeatherAppAPI.shared.fetchForecastFromCoreData()
                 //print((WeatherAppAPI.shared.fetchFromCoreData())?.dailyForecast.count)
-                //WeatherAppAPI.shared.saveForecastToCoreData(forecast: self.forecast!)
-                //WeatherAppAPI.shared.deleteFromCoreData()
-                DispatchQueue.main.async {
-
-                    self.horizontalScrollerView.reload()
-                    self.weatherLabel.text = self.forecast?.dailyForecast[0].hourlyForecast[0].data.weather
-                    self.tempLabel.text = self.forecast?.dailyForecast[0].hourlyForecast[0].data.temperatureAsTxt
-                    self.tableView.reloadData()
+                WeatherAppAPI.shared.saveForecastToCoreData(forecast: self.forecast!)
+                
+                if let forecast = self.forecast, forecast.dailyForecast.count > 0 {
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.horizontalScrollerView.reload()
+                        self.weatherLabel.text = self.forecast?.dailyForecast[0].hourlyForecast[0].data.weather
+                        self.tempLabel.text = self.forecast?.dailyForecast[0].hourlyForecast[0].data.temperatureAsTxt
+                        self.tableView.reloadData()
+                        
+                    }
+                    
+                } else {
+                    
+                    let alert = UIAlertController(title: "Error", message: "An error has occured, please make sure you are connected to the internet then restart the application", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    self.detailBtn.isEnabled = false
                     
                 }
                 
@@ -59,6 +70,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 } else {
                     self.automaticallyAdjustsScrollViewInsets = false
                 }
+                
             }
             else
             {
@@ -139,6 +151,7 @@ extension ViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier, for: indexPath) as!  DailyForecastTableViewCell
         let day = forecast?.dailyForecast[indexPath.row]
         cell.dayCell = day
+        cell.selectionStyle = .none
         return cell
     }
     
@@ -159,8 +172,9 @@ extension ViewController: HorizontalScrollerViewDelegate {
 
 extension ViewController: HorizontalScrollerViewDataSource {
     func numberOfViews(in horizontalScrollerView: HorizontalScrollerView) -> Int {
-        if self.forecast != nil {
-            return (forecast?.dailyForecast[0].hourlyForecast.count)!
+        if let forecast = self.forecast,
+            forecast.dailyForecast.count > 0 {
+            return (forecast.dailyForecast[0].hourlyForecast.count)
         } else {
             return 0
         }
