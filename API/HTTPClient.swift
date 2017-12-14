@@ -13,7 +13,7 @@ class HTTPClient {
     
     private let openWeatherMapURLForecast = "http://api.openweathermap.org/data/2.5/forecast"
     private let openWeatherMapURLCurrent = "http://api.openweathermap.org/data/2.5/weather"
-    private let openWeatherMapAPIKey = "f2c0678af52aa02137f906cc6c18e9b5"
+    private let openWeatherMapAPIKey = "YOURAPIKEY"
     private let iconBaseUrl = "http://openweathermap.org/img/w/"
     
     func getForecast(city: String, completion: @escaping (_ json: [String:Any]?) -> Void) {
